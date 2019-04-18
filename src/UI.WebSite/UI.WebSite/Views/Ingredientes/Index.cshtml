@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ApplicationCore.Domain.Entities.Ingrediente>
+﻿@model IEnumerable<IngredienteVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -31,10 +31,10 @@
                 @Html.DisplayFor(modelItem => item.Nome)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Preco)
+                @item.Preco
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DataCadastro)
+                @item.DataCadastro
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

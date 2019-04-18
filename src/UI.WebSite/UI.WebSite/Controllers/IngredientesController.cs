@@ -1,92 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ApplicationCore.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using ApplicationCore.Domain.Entities;
-using InfraStructure.Data.EntityFramework;
+using System;
+using UI.WebSite.ViewsModels.Ingrediente;
 
 namespace UI.WebSite.Controllers
 {
     public class IngredientesController : Controller
     {
-        private readonly Contexto _context;
+        private readonly IIngredienteService _service;
 
-        public IngredientesController(Contexto context)
+        public IngredientesController(IIngredienteService service)
         {
-            _context = context;
+            _service = service;
         }
 
-        // GET: Ingredientes
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Ingredientes.ToListAsync());
+            return View(_service.GetAll().ToViewsModels());
         }
 
-        // GET: Ingredientes/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var ingrediente = await _context.Ingredientes
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var ingrediente = _service.Get(id);
+
             if (ingrediente == null)
             {
                 return NotFound();
             }
 
-            return View(ingrediente);
+            return View(ingrediente.ToViewModel());
         }
 
-        // GET: Ingredientes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Ingredientes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome,Preco,Id,DataCadastro")] Ingrediente ingrediente)
+        public IActionResult Create(IngredienteVM ingrediente)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(ingrediente);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _service.Add(ingrediente.ToModel());
+
+                return RedirectToAction("Index");
             }
             return View(ingrediente);
         }
 
-        // GET: Ingredientes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var ingrediente = await _context.Ingredientes.SingleOrDefaultAsync(m => m.Id == id);
+            var ingrediente = _service.Get(id);
+
             if (ingrediente == null)
             {
                 return NotFound();
             }
-            return View(ingrediente);
+
+            return View(ingrediente.ToViewModel());
         }
 
-        // POST: Ingredientes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Nome,Preco,Id,DataCadastro")] Ingrediente ingrediente)
+        public IActionResult Edit(int id, IngredienteVM ingrediente)
         {
             if (id != ingrediente.Id)
             {
@@ -97,10 +84,9 @@ namespace UI.WebSite.Controllers
             {
                 try
                 {
-                    _context.Update(ingrediente);
-                    await _context.SaveChangesAsync();
+                    _service.Update(ingrediente.ToModel());
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
                     if (!IngredienteExists(ingrediente.Id))
                     {
@@ -113,41 +99,41 @@ namespace UI.WebSite.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             return View(ingrediente);
         }
 
         // GET: Ingredientes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var ingrediente = await _context.Ingredientes
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var ingrediente = _service.Get(id);
+
             if (ingrediente == null)
             {
                 return NotFound();
             }
 
-            return View(ingrediente);
+            return View(ingrediente.ToViewModel());
         }
 
         // POST: Ingredientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var ingrediente = await _context.Ingredientes.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Ingredientes.Remove(ingrediente);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var ingrediente = _service.Get(id);
+            _service.Remove(ingrediente);
+            return RedirectToAction("Index");
         }
 
         private bool IngredienteExists(int id)
         {
-            return _context.Ingredientes.Any(e => e.Id == id);
+            return _service.Get(id) == null ? false : true;
         }
     }
 }

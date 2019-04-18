@@ -35,6 +35,8 @@ namespace ApplicationCore.Domain.Services
 
         public Ingrediente Get(int? id)
         {
+            if (id == null) return null;
+
             return _repository.Get(id);
         }
 

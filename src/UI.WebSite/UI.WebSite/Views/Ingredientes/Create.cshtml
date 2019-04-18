@@ -1,4 +1,4 @@
-﻿@model ApplicationCore.Domain.Entities.Ingrediente
+﻿@model IngredienteVM
 
 @{
     ViewData["Title"] = "Create";
@@ -19,7 +19,20 @@
             </div>
             <div class="form-group">
                 <label asp-for="Preco" class="control-label"></label>
-                <input asp-for="Preco" class="form-control" />
+                <input class="form-control input-validation-error"
+                       type="number"
+                       min="0.00"
+                       max="10000.00"
+                       step="0.01"
+                       data-val="true"
+                       data-val-number="The field Preço must be a number."
+                       data-val-required="The Preço field is required."
+                       id="Preco"
+                       name="Preco"
+                       value=""
+                       aria-required="true"
+                       aria-describedby="Preco-error"
+                       aria-invalid="true" />
                 <span asp-validation-for="Preco" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -40,4 +53,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/Ingrediente/Ingrediente.js"></script>
 }
