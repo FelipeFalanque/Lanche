@@ -1,0 +1,91 @@
+﻿@model LancheVM
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>LancheVM</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form action="javascript:validateForm(this)" novalidate="novalidate">
+
+            @Html.AntiForgeryToken()
+
+            <input class="form-control" type="hidden" id="Id" name="Id" value="@Model.Id">
+
+            <div class="form-group">
+                <label class="control-label" for="DataCadastro">Cadastro</label>
+                <input class="form-control" type="text" id="DataCadastro" name="DataCadastro" value="@Model.DataCadastro">
+                <span class="text-danger field-validation-valid" data-valmsg-for="DataCadastro" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="Nome">Nome</label>
+                <input class="form-control" type="text" data-val="true" data-val-maxlength="The field Nome must be a string or array type with a maximum length of '50'." data-val-maxlength-max="50" data-val-required="The Nome field is required." id="Nome" name="Nome" value="@Model.Nome">
+                <span class="text-danger field-validation-valid" data-valmsg-for="Nome" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="Preco">Preço</label>
+                <input class="form-control" type="number" data-val="true" data-val-required="The Preço field is required." id="Preco" name="Preco" value="@Model.Preco.Replace(',', '.')">
+                <span class="text-danger field-validation-valid" data-valmsg-for="Preco" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default">
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Ingrediente</th>
+                    <th>Preço Unitario</th>
+                    <th>Quantidade</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.Ingredientes)
+                {
+                    <tr>
+                        <td>@item.Nome</td>
+                        <td>@item.Preco</td>
+                        @if (Model.Ingredientes.FirstOrDefault(i => i.IdIngrediente == item.Id) != null)
+                        {
+                            <td id="qtdIngrediente_@item.Id">@Model.Ingredientes.First(i => i.IdIngrediente == item.Id).QtdIngrediente</td>
+                        }
+                        else
+                        {
+                            <td id="qtdIngrediente_@item.Id">0</td>
+                        }
+                        <td>
+                            <a href="javascript:void(0)" class="btn btn-sm btn-success" onclick="AddIngrediente(@item.Id,'@item.Nome')"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                            <a href="javascript:void(0)" class="btn btn-sm btn-danger" onclick="RemoveIngrediente(@item.Id,'@item.Nome')"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        var arrayIdsIngredientes = [];
+
+        @foreach (var item in ViewBag.Ingredientes)
+        {
+            <text>arrayIdsIngredientes.push(@item.Id);</text>
+        }
+    </script>
+
+    <script src="~/js/Lanche/lancheAddEdit.js"></script>
+                }

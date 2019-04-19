@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace InfraStructure.Data.EntityFramework.Maps
 {
-    public class IngredienteMap : IEntityTypeConfiguration<Ingrediente>
+    public class LancheMap : IEntityTypeConfiguration<Lanche>
     {
-        public void Configure(EntityTypeBuilder<Ingrediente> builder)
+        public void Configure(EntityTypeBuilder<Lanche> builder)
         {
-            builder.ToTable("Ingredientes");
+            builder.ToTable("Lanches");
 
             builder.HasKey(p => p.Id);
 

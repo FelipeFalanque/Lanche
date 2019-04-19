@@ -31,8 +31,14 @@ namespace UI.WebSite
 
             //services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
 
+            services.AddScoped<ILancheRepository, LancheRepository>();
+            services.AddScoped<ILancheService, LancheService>();
+
             services.AddScoped<IIngredienteRepository, IngredienteRepository>();
             services.AddScoped<IIngredienteService, IngredienteService>();
+
+            services.AddScoped<ILancheIngredienteRepository, LancheIngredienteRepository>();
+            services.AddScoped<ILancheIngredienteService, LancheIngredienteService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

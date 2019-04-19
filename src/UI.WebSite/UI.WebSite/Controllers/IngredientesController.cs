@@ -103,7 +103,6 @@ namespace UI.WebSite.Controllers
             return View(ingrediente);
         }
 
-        // GET: Ingredientes/Delete/5
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -121,7 +120,6 @@ namespace UI.WebSite.Controllers
             return View(ingrediente.ToViewModel());
         }
 
-        // POST: Ingredientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)

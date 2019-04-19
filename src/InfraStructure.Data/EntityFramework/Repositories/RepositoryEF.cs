@@ -34,7 +34,7 @@ namespace InfraStructure.Data.EntityFramework.Repositories
             return _ctx.Set<T>().Where(predicate);
         }
 
-        public T Get(int? id)
+        public virtual T Get(int? id)
         {
             return _ctx.Set<T>().Find(id);
         }
