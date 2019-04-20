@@ -11,9 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Infrastructure", "03 -
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI.WebSite", "src\UI.WebSite\UI.WebSite\UI.WebSite.csproj", "{0235FC96-F0DA-4F16-B239-599E8A8B4B9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationCore.Domain", "src\ApplicationCore.Domain\ApplicationCore.Domain.csproj", "{F9F18CE4-7F6E-4EC0-A9C8-9B3D61BF2787}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationCore.Domain", "src\ApplicationCore.Domain\ApplicationCore.Domain.csproj", "{F9F18CE4-7F6E-4EC0-A9C8-9B3D61BF2787}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfraStructure.Data", "src\InfraStructure.Data\InfraStructure.Data.csproj", "{EA788624-EE13-4937-930E-2308EEB1F576}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfraStructure.Data", "src\InfraStructure.Data\InfraStructure.Data.csproj", "{EA788624-EE13-4937-930E-2308EEB1F576}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "tests\UnitTests\UnitTests.csproj", "{EAC2E9F9-8AF3-4D5F-8D72-C29672E06D7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{EA788624-EE13-4937-930E-2308EEB1F576}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA788624-EE13-4937-930E-2308EEB1F576}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA788624-EE13-4937-930E-2308EEB1F576}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAC2E9F9-8AF3-4D5F-8D72-C29672E06D7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAC2E9F9-8AF3-4D5F-8D72-C29672E06D7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAC2E9F9-8AF3-4D5F-8D72-C29672E06D7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAC2E9F9-8AF3-4D5F-8D72-C29672E06D7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

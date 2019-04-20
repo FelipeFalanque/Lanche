@@ -74,7 +74,19 @@ namespace UI.WebSite.Controllers
             {
                 try
                 {
-                    _serviceLanche.Update(lanche.ToModel());
+                    var ingredientes = _serviceIngrediente.GetAll();
+
+                    var lancheParaUpdate = lanche.ToModel();
+
+                    foreach (var item in ingredientes)
+                    {
+                        if(lancheParaUpdate.LanchesIngredientes.FirstOrDefault(li => li.IngredienteId == item.Id) != null)
+                        {
+                            lancheParaUpdate.LanchesIngredientes.First(li => li.IngredienteId == item.Id).Ingrediente = item;
+                        }
+                    }
+
+                    _serviceLanche.Update(lancheParaUpdate);
                 }
                 catch (Exception ex)
                 {
@@ -87,7 +99,9 @@ namespace UI.WebSite.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                // nesse momento o preço ja esta alterado.
+                return Json(new { preco = _serviceLanche.Get(id).Preco });
             }
 
             return View(lanche);

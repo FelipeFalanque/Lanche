@@ -1,9 +1,10 @@
 ﻿document.getElementById("DataCadastro").readOnly = true;
 document.getElementById("DataCadastro").style.color = "#c0c0c0";
 
-function AddIngrediente(idIngrediente, nomeIngrediente) {
+document.getElementById("Preco").readOnly = true;
+document.getElementById("Preco").style.color = "#c0c0c0";
 
-    alert(arrayIngredientes);
+function AddIngrediente(idIngrediente, nomeIngrediente) {
 
     let qtd = Number($("#qtdIngrediente_" + idIngrediente).text());
 
@@ -31,28 +32,37 @@ function validateForm(theForm) {
     if (StringHeVazia(theForm.Id.value)) {
         alert("Id esta vazio");
         return;
-    } else if (StringHeVazia(theForm.DataCadastro.value)) {
+    }
+    else if (StringHeVazia(theForm.DataCadastro.value)) {
         alert("Campo login esta vazio");
         return;
-    } else if (StringHeVazia(theForm.Nome.value)) {
+    }
+    else if (StringHeVazia(theForm.Nome.value)) {
         alert("Campo Nome esta vazio");
         return;
-    } else if (StringHeVazia(theForm.Preco.value)) {
+    }
+    else if (StringHeVazia(theForm.Preco.value)) {
         alert("Preço vazio");
         return;
-    } else {
+    }
+    else {
 
-        /*
-        public int IdIngrediente { get; set; }
-        public string NomeIngrediente { get; set; }
-        public int QtdIngrediente { get; set; }
-        */
+        let ingredientes = [];
 
-        let ingredientes = [
-            { "IdIngrediente": 1, "NomeIngrediente": "NaoImporta", "QtdIngrediente": 3 },
-            { "IdIngrediente": 2, "NomeIngrediente": "NaoImporta", "QtdIngrediente": 4 },
-            { "IdIngrediente": 3, "NomeIngrediente": "NaoImporta", "QtdIngrediente": 5 },
-        ];
+        for (var i = 0; i < arrayIdsIngredientes.length; i++) {
+
+            let idIngrediente = arrayIdsIngredientes[i];
+            let qtd = Number($("#qtdIngrediente_" + idIngrediente).text());
+
+            if (qtd > 0) {
+                ingredientes.push({ "IdIngrediente": idIngrediente, "NomeIngrediente": "NaoImporta", "QtdIngrediente": qtd });
+            }
+        }
+
+        if (ingredientes.length == 0) {
+            alert("Lanche deve ter ao menos um ingrediente");
+            return;
+        }
 
         var lancheJson = {
             'Id': theForm.Id.value,
@@ -63,7 +73,6 @@ function validateForm(theForm) {
         };
 
         var token = $('input[name="__RequestVerificationToken"]').val();
-        //var _token = theForm.__RequestVerificationToken.value;
 
         $.ajax({
             type: 'POST',
@@ -77,6 +86,8 @@ function validateForm(theForm) {
             },
             success: function (response) {
                 console.log(response);
+                $("#Preco").val(response.preco);
+                alert("O lanche ficou R$" + response.preco);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR.responseText.split("'"));

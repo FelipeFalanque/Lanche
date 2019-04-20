@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Domain.Entities;
+using ApplicationCore.Domain.Helpers.LancheHelper;
 using ApplicationCore.Domain.Interfaces.Repositories;
 using ApplicationCore.Domain.Interfaces.Services;
 using System;
@@ -64,7 +65,7 @@ namespace ApplicationCore.Domain.Services
 
         public void Update(Lanche entity)
         {
-            //Para gatantir vou aparga as associaçoes e criar novamnete
+            //Para gatantir vou aparga as associaçoes e criar novamente
 
             // associações desse lanche
             var associacoes = _repoLancheIngrediente.Find(li => li.LancheId == entity.Id);
@@ -73,6 +74,9 @@ namespace ApplicationCore.Domain.Services
             // refaz associações
             var novas_associacoes = entity.LanchesIngredientes;
             _repoLancheIngrediente.AddRange(novas_associacoes);
+
+            // Calcula Preço
+            entity.CalcularPreco();
 
             _repoLanche.Update(entity);
         }

@@ -79,13 +79,25 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
-        var arrayIdsIngredientes = [];
 
-        @foreach (var item in ViewBag.Ingredientes)
+        @{ <text>var arrayIdsIngredientes = [</text> }
+
+        @for (int i = 0; i < ViewBag.Ingredientes.Count; i++)
         {
-            <text>arrayIdsIngredientes.push(@item.Id);</text>
+            if (i == (ViewBag.Ingredientes.Count - 1))
+            {
+                //Essa é a ultima interação
+                <text>@ViewBag.Ingredientes[i].Id</text>
+            }
+            else
+            {
+                <text> @ViewBag.Ingredientes[i].Id,</text>
+            }
         }
+
+        @{ <text>];</text> }
+
     </script>
 
     <script src="~/js/Lanche/lancheAddEdit.js"></script>
-                }
+}
