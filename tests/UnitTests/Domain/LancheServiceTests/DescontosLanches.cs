@@ -91,5 +91,55 @@ namespace UnitTests.Domain.LancheServiceTests
 
             Assert.True(precoDoLancheComDesconto == xOvo.Preco);
         }
+
+        [Fact]
+        public void SemDescontoDeDezPorCentoPorTerAlfaceEBacon()
+        {
+            // Lanche
+            Lanche xOvo = new Lanche { Id = 1, Nome = "xOvo" };
+            // Ingredientes
+            Ingrediente ovo = _serviceIngrediente.Get(4);
+            Ingrediente alface = _serviceIngrediente.Get(1);
+            Ingrediente bacon = _serviceIngrediente.Get(2);
+            // União Lanche Ingrediente
+            LancheIngrediente liOvo = new LancheIngrediente
+            {
+                Id = 1,
+                Lanche = xOvo,
+                LancheId = 1,
+                Ingrediente = ovo,
+                IngredienteId = ovo.Id,
+                QtdIngrediente = 10
+            };
+            LancheIngrediente liAlface = new LancheIngrediente
+            {
+                Id = 1,
+                Lanche = xOvo,
+                LancheId = 1,
+                Ingrediente = alface,
+                IngredienteId = alface.Id,
+                QtdIngrediente = 1
+            };
+            LancheIngrediente liBacon = new LancheIngrediente
+            {
+                Id = 1,
+                Lanche = xOvo,
+                LancheId = 1,
+                Ingrediente = bacon,
+                IngredienteId = bacon.Id,
+                QtdIngrediente = 1
+            };
+            // União Lanche Ingrediente
+            xOvo.LanchesIngredientes.Add(liOvo);
+            xOvo.LanchesIngredientes.Add(liAlface);
+            xOvo.LanchesIngredientes.Add(liBacon);
+            // Calcula Preco do lanche.
+            xOvo.CalcularPreco();
+
+            var precoDoLancheSemDesconto = (ovo.Preco * 10) + alface.Preco + bacon.Preco;
+            var precoDoLancheComDesconto = precoDoLancheSemDesconto;
+
+            Assert.True(precoDoLancheComDesconto == xOvo.Preco);
+        }
     }
 }
